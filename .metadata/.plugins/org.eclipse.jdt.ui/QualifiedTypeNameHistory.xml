@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="javafx.stage.Window"/>
+    <fullyQualifiedTypeName name="javafx.event.Event"/>
+    <fullyQualifiedTypeName name="javafx.scene.input.ScrollEvent"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.AnchorPane"/>
+    <fullyQualifiedTypeName name="com.example.jaddijstra.SingleLinkedList"/>
+    <fullyQualifiedTypeName name="application.SingleLinkedList"/>
+    <fullyQualifiedTypeName name="javax.imageio.stream.FileCacheImageOutputStream"/>
+    <fullyQualifiedTypeName name="javafx.stage.FileChooser"/>
+</qualifiedTypeNameHistroy>

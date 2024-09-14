@@ -1,0 +1,294 @@
+package application;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+public class LinkedList<E> implements Iterable<E> {
+	public ArrayList<String> getNames(){
+    	ArrayList<String> list=new ArrayList();
+    	Node current=this.head;
+    	while(current!=null) {
+    		if(current.data instanceof application.CNode)
+    		list.add(((CNode)current.data).getCity());
+    		else
+    			list.add((String)current.data);
+    		current=current.next;
+    	}
+    	return list;
+    }
+	public String getNamesString(){
+    	String list=new String();
+    	Node current=this.head;
+    	while(current!=null) {
+    		if(current.data instanceof application.CNode)
+    		list+=(((CNode)current.data).getCity()+"\n");
+    		else
+    			list+=((String)current.data+"\n");
+    		current=current.next;
+    	}
+    	return list;
+    }
+	 public void addLast(E data) {
+	        Node<E> newNode = new Node<>(data);
+	        if (tail == null) {
+	            head = newNode;
+	            tail = newNode;
+	        } else {
+	            tail.next = newNode;
+	            tail = newNode;
+	        }
+	        size++;
+	    }
+	 public boolean remove(E data) {
+	        if (head == null) {
+	            return false;
+	        }
+
+	        if (head.data.equals(data)) {
+	            head = head.next;
+	            if (head == null) {
+	                tail = null;
+	            }
+	            size--;
+	            return true;
+	        }
+
+	        Node<E> current = head;
+	        while (current.next != null && !current.next.data.equals(data)) {
+	            current = current.next;
+	        }
+
+	        if (current.next == null) {
+	            return false;
+	        }
+
+	        current.next = current.next.next;
+	        if (current.next == null) {
+	            tail = current;
+	        }
+	        size--;
+	        return true;
+	    }
+
+	 public Node<E> head;
+    public Node<E> tail;
+    private int size;
+
+    public LinkedList() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
+
+    public LinkedList(Collection<? extends E> c) {
+        this();
+        for (E element : c) {
+            add(element);
+        }
+    }
+
+    public void add(E data) {
+        Node<E> newNode = new Node<>(data);
+        if (tail == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+        size++;
+    }
+
+    public E get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node<E> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        return current.data;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public void addAll(LinkedList<E> list) {
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+
+        Node<E> current = list.head;
+        while (current != null) {
+            add(current.data);
+            current = current.next;
+        }
+    }
+
+    public void setAll(LinkedList<E> list) {
+        clear();
+        addAll(list);
+    }
+
+    public void clear() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
+
+    public Stream<E> stream() {
+        return StreamSupport.stream(spliterator(), false);
+    }
+    public void add(int index, E data) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node<E> newNode = new Node<>(data);
+        if (index == 0) {
+            newNode.next = head;
+            head = newNode;
+            if (tail == null) {
+                tail = head;
+            }
+        } else {
+            Node<E> current = head;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+            newNode.next = current.next;
+            current.next = newNode;
+            if (current == tail) {
+                tail = newNode;
+            }
+        }
+        size++;
+    }
+    public void addFirst(E data) {
+        Node<E> newNode = new Node<>(data);
+        newNode.next = head;
+        head = newNode;
+        if (tail == null) {
+            tail = head;
+        }
+        size++;
+    }
+    public void addSorted(E data, Comparator<E> comparator) {
+        Node<E> newNode = new Node<>(data);
+        if (isEmpty() || comparator.compare(data, head.data) <= 0) {
+            newNode.next = head;
+            head = newNode;
+            if (tail == null) {
+                tail = head;
+            }
+        } else {
+            Node<E> current = head;
+            while (current.next != null && comparator.compare(data, current.next.data) > 0) {
+                current = current.next;
+            }
+            newNode.next = current.next;
+            current.next = newNode;
+            if (current == tail) {
+                tail = newNode;
+            }
+        }
+        size++;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new LinkedListIterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super E> action) {
+        for (E e : this) {
+            action.accept(e);
+        }
+    }
+
+    @Override
+    public Spliterator<E> spliterator() {
+        return new LinkedListSpliterator<>(this);
+    }
+
+    private static class LinkedListSpliterator<E> implements Spliterator<E> {
+        private Node<E> current;
+        private int size;
+
+        LinkedListSpliterator(LinkedList<E> list) {
+            this.current = list.head;
+            this.size = list.size();
+        }
+
+        @Override
+        public boolean tryAdvance(Consumer<? super E> action) {
+            if (current != null) {
+                action.accept(current.data);
+                current = current.next;
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public Spliterator<E> trySplit() {
+            return null;
+        }
+
+        @Override
+        public long estimateSize() {
+            return size;
+        }
+
+        @Override
+        public int characteristics() {
+            return ORDERED | SIZED | SUBSIZED;
+        }
+    }
+
+    private class LinkedListIterator implements Iterator<E> {
+        private Node<E> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+        public void addLast(E data) {
+            Node<E> newNode = new Node<>(data);
+            if (tail == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+            size++;
+        }
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            E data = current.data;
+            current = current.next;
+            return data;
+        }
+    }
+
+    
+}

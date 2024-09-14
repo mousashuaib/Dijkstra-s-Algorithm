@@ -1,0 +1,241 @@
+55 186
+greenLand 71.7069 -42.6043
+Turkia 38.9637 35.2433
+maxico 23.6345 -102.5528
+Canada 56.1304 -106.3468
+mosco 55.7558 37.6173
+Eritrea 15.1794 39.7823
+Angola 11.2027 17.8739
+Guinea 9.9456 9.6966
+Rabat 34.020882 -6.841650
+Algiers 36.737232 3.086472
+Cairo 30.044420 31.235712
+Khartoum 15.500654 32.559899
+NDjamena 12.134846 15.055741
+Jerusalem 31.7683 35.2137
+Niamey 13.511596 2.125385
+Bamako 12.639232 -8.002890
+Nouakchott 18.073530 -15.958237
+Dakar 14.716677 -17.467686
+Conakry 9.641185 -13.578401
+Yamoussoukro 5.359952 -4.008256
+Ouagadougou 12.368617 -1.528018
+Monrovia 6.315559 -10.807433
+Freetown 8.465676 -13.231722
+Accra 5.603716 -0.186964
+Abuja 9.076479 7.398574
+Tripoli 32.885353 13.180161
+Yaound 3.848000 11.502075
+Bangui 4.394674 18.558190
+AddisAbaba 9.145000 38.763611
+Mogadishu 2.046934 45.318162
+Kampala 0.347596 32.582520
+Nairobi -1.286389 36.817223
+Dodoma -6.7924 39.2083
+Kigali -1.9403 29.8739
+Gitega -3.3731 29.9189
+Kinshasa -4.0383 21.7587
+Brazzaville -4.2634 15.2429
+Lusaka -15.3875 28.3228
+Lilongwe -13.2543 34.3015
+Harare -17.8252 31.0335
+Gaborone -24.6541 25.9087
+Windhoek -22.5609 17.0658
+Pretoria -25.746 28.1871
+ElAaiun 24.2155 -12.8858
+Lom 6.1228 1.2255
+PortoNovo 6.5244 2.4445
+Libreville -0.8037 11.6094
+Malabo 1.6508 10.2679
+SaoTome 0.1864 6.6131
+Juba 4.860416 31.576144
+Maputo -25.7479 28.2379
+Maseru -29.609988 28.233608
+Mbabane -26.562480 31.399114
+Moroni -11.8750 43.8722
+Djibouti 11.8251 42.5903
+greenLand#Jerusalem
+Algiers#greenLand
+Turkia#Canada
+maxico#Canada
+mosco#Jerusalem
+mosco#Khartoum
+mosco#Canada
+Jerusalem#Cairo
+Rabat#ElAaiun
+Algiers#ElAaiun
+Algiers#Rabat
+Algiers#Bamako
+Algiers#Niamey
+Algiers#Tripoli
+Algiers#Tunis
+Cairo#Khartoum
+Cairo#Tripoli
+Cairo#Jerusalem
+Cairo#Jerusalem
+Khartoum#Cairo
+Khartoum#Tripoli
+Khartoum#NDjamena
+Tripoli#Algiers
+Tripoli#Tunis
+Tripoli#Cairo
+Tripoli#Khartoum
+Tripoli#NDjamena
+Khartoum#AddisAbaba
+Khartoum#Asmara
+Khartoum#Juba
+NDjamena#Khartoum
+NDjamena#Tripoli
+NDjamena#Niamey
+NDjamena#Yaounde
+NDjamena#Bangui
+Niamey#Algiers
+Niamey#Tripoli
+Niamey#NDjamena
+Niamey#Abuja
+Niamey#Bamako
+Niamey#Ouagadougou
+Bamako#Algiers
+Bamako#Niamey
+Bamako#Conakry
+Bamako#Yamoussoukro
+Bamako#Ouagadougou
+Bamako#Dakar
+Bamako#Nouakchott
+Nouakchott#El Aaiún
+Nouakchott#Rabat
+Nouakchott#Bamako
+Nouakchott#Dakar
+Dakar#Nouakchott
+Dakar#Bamako
+Dakar#Conakry
+Dakar#Banjul
+Conakry#Dakar
+Conakry#Bamako
+Conakry#Yamoussoukro
+Conakry#Monrovia
+Conakry#Freetown
+Conakry#Bissau
+Yamoussoukro#Conakry
+Yamoussoukro#Bamako
+Yamoussoukro#Ouagadougou
+Yamoussoukro#Accra
+Ouagadougou#Bamako
+Ouagadougou#Niamey
+Ouagadougou#Yamoussoukro
+Ouagadougou#Accra
+Ouagadougou#Lome
+Ouagadougou#PortoNovo
+Monrovia#Conakry
+Monrovia#Freetown
+Freetown#Conakry
+Freetown#Monrovia
+Accra#Yamoussoukro
+Accra#Ouagadougou
+Accra#Lome
+Accra#PortoNovo
+Accra#Abuja
+Abuja#Niamey
+Abuja#NDjamena
+Abuja#Yaounde
+Abuja#PortoNovo
+Yaounde#Abuja
+Yaounde#NDjamena
+Yaounde#Bangui
+Yaounde#Libreville
+Yaounde#Malabo
+Bangui#NDjamena
+Bangui#Yaounde
+Bangui#Khartoum
+Bangui#Juba
+Bangui#Kinshasa
+Bangui#Brazzaville
+AddisAbaba#Khartoum
+AddisAbaba#Asmara
+AddisAbaba#Djibouti 
+AddisAbaba#Mogadishu
+AddisAbaba#Nairobi
+Mogadishu#AddisAbaba
+Mogadishu#Djibouti
+Mogadishu#Nairobi
+Kampala#Nairobi
+Kampala#Dodoma
+Kampala#Kigali
+Kampala#Juba
+Kampala#Kinshasa
+Nairobi#AddisAbaba
+Nairobi#Mogadishu
+Nairobi#Kampala
+Nairobi#Dodoma
+Nairobi#Juba
+Dodoma#Nairobi
+Dodoma#Kampala
+Dodoma#Kigali
+Dodoma#Gitega
+Dodoma#Kinshasa
+Dodoma#Lusaka
+Dodoma#Lilongwe
+Dodoma#Maputo
+Kigali#Kampala
+Kigali#Dodoma
+Kigali#Gitega
+Kigali#Kinshasa
+Gitega#Dodoma
+Gitega#Kigali
+Gitega#Kinshasa
+Kinshasa#Bangui
+Kinshasa#Brazzaville
+Kinshasa#Luanda
+Kinshasa#Lusaka
+Kinshasa#Dodoma
+Kinshasa#Gitega
+Kinshasa#Kigali
+Kinshasa#Kampala
+Brazzaville#Bangui
+Brazzaville#Kinshasa
+Brazzaville#Luanda
+Brazzaville#Libreville
+Lusaka#Dodoma
+Lusaka#Kinshasa
+Lusaka#Luanda
+Lusaka#Harare
+Lusaka#Windhoek
+Lusaka#Gaborone
+Lusaka#Lilongwe
+Lusaka#Maputo
+Lilongwe#Dodoma
+Lilongwe#Lusaka
+Lilongwe#Maputo
+Harare#Lusaka
+Harare#Maputo
+Harare#Gaborone
+Harare#Pretoria
+Gaborone#Harare
+Gaborone#Lusaka
+Gaborone#Windhoek
+Gaborone#Pretoria
+Windhoek#Luanda
+Windhoek#Lusaka
+Windhoek#Gaborone
+Windhoek#Pretoria
+Pretoria#Windhoek
+Pretoria#Gaborone
+Pretoria#Harare
+Pretoria#Maputo
+Pretoria#Mbabane
+Pretoria#Maseru
+ElAaiun#Rabat
+ElAaiun#Nouakchott
+Lome#Accra
+Lome#Ouagadougou
+Lome#PortoNovo
+PortoNovo#Abuja
+PortoNovo#Ouagadougou
+PortoNovo#Lome
+SaoTome#Libreville
+Libreville#SaoTome
+Libreville#Malabo
+Libreville#Yaounde
+Malabo#Libreville
+Malabo#Yaounde
+Moroni#Mogadishu

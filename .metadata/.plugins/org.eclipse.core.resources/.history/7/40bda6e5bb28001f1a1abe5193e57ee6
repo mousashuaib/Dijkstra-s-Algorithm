@@ -1,0 +1,380 @@
+package application;
+
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.*;
+import java.net.URL;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class MapController {
+	private static BorderPane rootmain = new BorderPane();
+	private static AnchorPane root = new AnchorPane();
+	private static HBox hBox = new HBox();
+	private static ScrollPane scrollPane = new ScrollPane();
+	private static AnchorPane wp = new AnchorPane();
+	private static VBox controlPanel = new VBox();
+	private static Label startLabel = new Label("Start Point");
+	private static ComboBox<String> from = new ComboBox<>();
+	private static Label endLabel = new Label("End Point");
+	private static ComboBox<String> to = new ComboBox<>();
+	private static Button findPathButton = new Button("Calculate");
+	private static Label routeLabel = new Label("Route");
+	private static TextArea path = new TextArea();
+	private static Label distanceLabel = new Label("Distance");
+	private static TextArea cost = new TextArea();
+	private List<Line> pathLines = new ArrayList<>();
+
+	private final double leftBottomLat = -55.0;
+	private final double leftBottomLong = -180.0;
+	private final double leftTopLat = 85.0;
+	private final double rightBottomLong = 180.0;
+
+	private double scaleX;
+	private double scaleY;
+	public static boolean flag = false;
+	private int clickCount = 0; // track clicks
+
+	// stores network of cities where name of city with the NodeM (City and St)
+	private Map<String, Node> NodeMs = new HashMap<>();
+
+	// ******************FileChooser****************************************
+	private void loadData() throws FileNotFoundException {
+
+		File file = new File("C:\\Users\\Mousa\\Desktop\\Project3\\main.txt");
+		if (file == null) {
+			throw new FileNotFoundException("No file selected.");
+		}
+		if (!flag) {
+			try (Scanner scanner = new Scanner(file)) {
+				int numberOfPlaces = scanner.nextInt();
+				int numberOfAdjacencies = scanner.nextInt();
+				scanner.nextLine();
+				System.out.println("Number of Places: " + numberOfPlaces);
+				System.out.println("Number of Adjacencies: " + numberOfAdjacencies);
+				// Read each place (name, latitude, longitude)
+				for (int i = 0; i < numberOfPlaces; i++) {
+					if (!scanner.hasNextLine()) {
+						throw new IllegalArgumentException("Unexpected end of file while reading places.");
+					}
+					String line = scanner.nextLine().trim();
+					System.out.println("Reading place: " + line);
+
+					String[] parts = line.split("\\s+");
+					if (parts.length < 3) {
+						throw new IllegalArgumentException("Invalid place format: " + line);
+					}
+					double lat = Double.parseDouble(parts[1]);
+					double lon = Double.parseDouble(parts[2]);
+					String name = String.join(" ", Arrays.copyOf(parts, parts.length - 2));
+					NodeMs.put(name, new Node(name, lat, lon));
+					drawLocation(name, lat, lon);
+				}
+				// Read each adjacency (name1#name2)
+				for (int i = 0; i < numberOfAdjacencies; i++) {
+					if (!scanner.hasNextLine()) {
+						throw new IllegalArgumentException("Unexpected end of file while reading adjacencies.");
+					}
+					String line = scanner.nextLine().trim();
+					System.out.println("Reading adjacency: " + line);
+					String[] parts = line.split("#");
+					if (parts.length != 2) {
+						throw new IllegalArgumentException("Invalid adjacency format: " + line);
+					}
+					Node NodeM1 = NodeMs.get(parts[0].trim());
+					Node NodeM2 = NodeMs.get(parts[1].trim());
+
+					if (NodeM1 != null && NodeM2 != null) {
+						double distance = calculateDistance(NodeM1.getLatitude(), NodeM1.getLongitude(),
+								NodeM2.getLatitude(), NodeM2.getLongitude());
+						NodeM1.addAdjacentNode(NodeM2, distance);
+					} else {
+						System.out.println("Warning: One or both NodeMs not found for adjacency: " + line);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("Error loading data: " + e.getMessage());
+			}
+			flag = true;
+		}
+	}
+
+	// *************************JavaFX**********************************
+	public BorderPane createUI() throws FileNotFoundException {
+
+		Image mapImage = new Image(new FileInputStream("map.png"));
+		wp.setPrefSize(1160, 700);
+		double paneWidth = wp.getWidth(); // Get actual pane width
+		double paneHeight = wp.getHeight(); // Get actual pane height
+
+		// Calculate scaled dimensions to fit within the pane while maintaining aspect
+		// ratio
+		double aspectRatio = mapImage.getWidth() / mapImage.getHeight();
+		double imageWidth;
+		double imageHeight;
+
+		if (paneWidth / aspectRatio > paneHeight) { // Wider image
+			imageWidth = paneWidth;
+			imageHeight = paneWidth / aspectRatio;
+		} else { // Taller image
+			imageHeight = paneHeight;
+			imageWidth = paneHeight * aspectRatio;
+		}
+		BackgroundImage backgroundImage = new BackgroundImage(mapImage, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+				new BackgroundSize(imageWidth, imageHeight, false, false, false, true));
+		wp.setBackground(new Background(backgroundImage));
+
+		scrollPane.setContent(wp);
+		hBox.getChildren().addAll(scrollPane);
+		controlPanel.getChildren().addAll(startLabel, from, endLabel, to, findPathButton, routeLabel, path,
+				distanceLabel, cost);
+		controlPanel.setMaxWidth(200);
+		VBox vbox = new VBox(hBox);
+		VBox.setVgrow(vbox, Priority.ALWAYS);
+		HBox.setHgrow(hBox, Priority.ALWAYS); // Allow hBox to grow horizontally
+		root.getChildren().add(vbox);
+
+		// Setting styles programmatically
+		root.setStyle("-fx-font-family: Arial; -fx-background-color: #f5f5f5;");
+		controlPanel.setStyle(
+				"-fx-background-color: #e0e0e0; -fx-padding: 10; -fx-border-color: #bdbdbd; -fx-border-width: 1; -fx-border-radius: 5;");
+		startLabel.setStyle("-fx-text-fill: #333333; -fx-font-size: 14px; -fx-font-weight: bold;");
+		from.setStyle(
+				"-fx-background-color: #ffffff; -fx-border-color: #9e9e9e; -fx-border-radius: 3; -fx-padding: 5 10;");
+		endLabel.setStyle("-fx-text-fill: #333333; -fx-font-size: 14px; -fx-font-weight: bold;");
+		to.setStyle(
+				"-fx-background-color: #ffffff; -fx-border-color: #9e9e9e; -fx-border-radius: 3; -fx-padding: 5 10;");
+		findPathButton.setStyle(
+				"-fx-background-color: #03a9f4; -fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-border-radius: 3; -fx-padding: 10 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5);");
+		controlPanel.setAlignment(Pos.CENTER_RIGHT);
+		hBox.setAlignment(Pos.CENTER_RIGHT);
+		initialize();
+		rootmain.setCenter(root);
+		rootmain.setRight(controlPanel);
+		return rootmain;
+	}
+
+	// ***************** fill the comboBoxes with cities using the
+	// stream*****************************
+	private void populateComboBoxes() {
+		List<String> placeNames = NodeMs.values().stream().map(Node::getName)
+				.filter(name -> !(Character.isDigit(name.charAt(1)))).sorted().collect(Collectors.toList());
+
+		from.getItems().setAll(placeNames);
+		to.getItems().setAll(placeNames);
+	}
+
+	// ****************** clear the map when choosing a new
+	// path*********************************
+	private void clearPreviousPath() {
+		for (Line line : pathLines) {
+			wp.getChildren().remove(line);
+		}
+		pathLines.clear();
+	}
+
+	// *************************Drow Location************************************
+	private void drawLocation(String name, double lat, double lon) throws FileNotFoundException {
+		double x = ((lon - leftBottomLong) * (scaleX)) - 40;
+		double y = (leftTopLat - lat) * (scaleY / 1.45) + 165;
+		Image image = new Image(new FileInputStream("hghgh.jpg"));
+		ImageView locationIcon = new ImageView(image);
+		locationIcon.setFitHeight(12);
+		locationIcon.setFitWidth(12);
+
+		Label nameLabel = new Label(name);
+		nameLabel.setTextFill(Color.BLACK);
+		nameLabel.setFont(new Font("Arial", 11));
+
+		Tooltip tooltip = new Tooltip(name);
+		Tooltip.install(locationIcon, tooltip);
+		Tooltip.install(nameLabel, tooltip);
+
+		HBox locationGroup = new HBox();
+		locationGroup.getChildren().addAll(locationIcon, nameLabel);
+		locationGroup.setLayoutX(x - locationIcon.getFitWidth() / 2);
+		locationGroup.setLayoutY(y - locationIcon.getFitHeight() / 2);
+		locationGroup.setAlignment(Pos.CENTER);
+		wp.getChildren().add(locationGroup);
+
+		// mouse event handler
+		locationGroup.setOnMouseClicked(event -> {
+			clickCount++;
+			if (clickCount == 1) {
+				// First click - select the starting point
+				from.getSelectionModel().select(name);
+			} else if (clickCount == 2) {
+				// Second click - select the destination
+				to.getSelectionModel().select(name);
+			} else if (clickCount == 3) {
+				// Third click - clear the previous path and reset selections
+				clearPreviousPath();
+				from.getSelectionModel().clearSelection();
+				to.getSelectionModel().clearSelection();
+				path.clear();
+				cost.clear();
+				clickCount = 1; // Reset clickCount to 1 for the next path
+				from.getSelectionModel().select(name); // Select the new starting point
+			}
+		});
+	}
+
+	// *********************initialize**********************************
+	public void initialize() {
+		// make the image bindable
+		wp.boundsInLocalProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue.getWidth() > 0 && newValue.getHeight() > 0) {
+				calculateScale(newValue.getWidth(), newValue.getHeight());
+				try {
+					loadData();
+					populateComboBoxes();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		findPathButton.setOnAction(event -> {
+			String fromPlace = from.getValue();
+			String toPlace = to.getValue();
+
+			if (fromPlace != null && toPlace != null) {
+				List<Node> shortestPath = findShortestPath(fromPlace, toPlace);/////////////////////////////
+				displayPathAndCost(shortestPath);
+				drawPathOnMap(shortestPath);
+			}
+		});
+	}
+
+	// converting the geograpical coordinates into pixle cordinate
+	private void calculateScale(double width, double height) {
+		scaleX = ((width) / (((rightBottomLong - leftBottomLong))));// how much pixles in the interface represents one
+		// deg in lon
+		scaleY = height / ((leftTopLat - leftBottomLat));// same
+	}
+
+	// ***************************************calculateDistance****************************************************************
+	public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+		final int R = 6371;
+		double latDistance = Math.toRadians(lat2 - lat1);
+		double lonDistance = Math.toRadians(lon2 - lon1);
+		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(lat1))
+				* Math.cos(Math.toRadians(lat2)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		return R * c;
+	}
+	// ***************************************findShortestPath****************************************************************
+
+	private List<Node> findShortestPath(String from, String to) {
+		// This map is used to track the shortest known distance from the start NodeM to
+		// every other NodeM in the graph.
+		Map<Node, Double> distances = new HashMap<>();
+		// keeps track of the shortest path tree. It is used to reconstruct the shortest
+		// path from the start NodeM to the dest
+		Map<Node, Node> predecessors = new HashMap<>();
+		// select the next NodeM to visit based on the shortest distance calculated so
+		// far.
+		PriorityQueue<Node> NodeMsQueue = new PriorityQueue<>(Comparator.comparing(distances::get));
+
+		for (Node NodeM : NodeMs.values()) {// return Each NodeM object represents a location or a point on the map
+			distances.put(NodeM, Double.MAX_VALUE);// each NodeM with distance but the distance not set yet
+		}
+
+		Node start = NodeMs.get(from);
+		if (start == null)
+			return Collections.emptyList();
+		
+
+		distances.put(start, 0.0);
+		NodeMsQueue.addAll(NodeMs.values());// put the NodeMs (cities and streets)
+		while (!NodeMsQueue.isEmpty()) {
+			Node current = NodeMsQueue.poll();
+
+			// choose the minimum distance between sourc and dest
+			for (AdjacentNode adjacentNodeM : current.getAdjacentNodes()) {
+				Node adjacent = adjacentNodeM.getNode();
+				double newDist = distances.get(current) + adjacentNodeM.getDistance();
+
+				if (newDist < distances.get(adjacent)) {
+					distances.put(adjacent, newDist);
+					predecessors.put(adjacent, current);
+
+					NodeMsQueue.remove(adjacent);
+					NodeMsQueue.add(adjacent);
+				}
+			}
+		}
+		// returns the shortest path in an arraylist
+		return reconstructPath(predecessors, start, NodeMs.get(to));
+	}
+	// ***************************************reconstructPath****************************************************************
+
+	private List<Node> reconstructPath(Map<Node, Node> predecessors, Node start, Node end) {
+		LinkedList<Node> path = new LinkedList<>();
+		if (end == null || !predecessors.containsKey(end))
+			return path;// end base case
+		Node at = end;
+		while (at != null && !at.equals(start)) {
+			path.addFirst(at);
+			at = predecessors.get(at);
+		}
+
+		if (at != null)
+			path.addFirst(start);
+		return path;
+	}
+	// ***************************************displayPathAndCost****************************************************************
+
+	private void displayPathAndCost(List<Node> path) {
+		this.path.clear();
+		this.cost.clear();
+		if (path.isEmpty()) {
+			this.path.setText("No path found.");
+			cost.setText("0");
+			return;
+		}
+
+		String pathString = path.stream().map(Node::getName).collect(Collectors.joining("\n"));
+		Double totalCost = 0.0;
+		for (int i = 0; i < path.size() - 1; i++) {
+			Node NodeM = path.get(i);
+			Node nextNodeM = path.get(i + 1);
+			totalCost += calculateDistance(NodeM.getLatitude(), NodeM.getLongitude(), nextNodeM.getLatitude(),
+					nextNodeM.getLongitude());
+		}
+
+		this.path.setText(pathString);
+		cost.setText(String.format("%.2f km", totalCost));
+	}
+	// ***************************************drawPathOnMap****************************************************************
+
+	private void drawPathOnMap(List<Node> path) {
+		clearPreviousPath();
+		for (int i = 0; i < path.size() - 1; i++) {
+			Node NodeM = path.get(i);
+			Node nextNodeM = path.get(i + 1);
+
+			double x1 = ((NodeM.getLongitude() - leftBottomLong) * (scaleX)) - 40;
+			double y1 = (leftTopLat - NodeM.getLatitude()) * (scaleY / 1.45) + 165;
+			double x2 = ((nextNodeM.getLongitude() - leftBottomLong) * (scaleX)) - 40;
+			double y2 = (leftTopLat - nextNodeM.getLatitude()) * (scaleY / 1.45) + 165;
+
+			Line line = new Line(x1, y1, x2, y2);
+			line.setStroke(Color.BLUE);
+			line.setStrokeWidth(2);
+			pathLines.add(line);
+			wp.getChildren().add(line);
+		}
+	}
+
+}

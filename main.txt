@@ -1,0 +1,241 @@
+55 185
+XX 55.0 55.0
+mosco 55.7558 37.6173
+maxico 23.6345 -102.5528
+lebanon 33.8547 35.8623
+Asmara 15.1794 39.7823
+Canada 56.1304 -106.3468
+Angola 11.2027 17.8739
+Guinea 9.9456 9.6966
+Morocco 34.020882 -6.841650
+Algeria 36.737232 3.086472
+Egypt 30.044420 31.235712
+Sudan 15.500654 32.559899
+Chad 12.134846 15.055741
+Jerusalem 31.7683 35.2137
+Niger 13.511596 2.125385
+Mali 12.639232 -8.002890
+Mauritania 18.073530 -15.958237
+Senegal 14.716677 -17.467686
+Guinea 9.641185 -13.578401
+IvoryCoast 5.359952 -4.008256
+BurkinaFaso 12.368617 -1.528018
+Liberia 6.315559 -10.807433
+SierraLeone 8.465676 -13.231722
+Ghana 5.603716 -0.186964
+Nigeria 9.076479 7.398574
+Libya 32.885353 13.180161
+Cameroon 3.848000 11.502075
+CentralAfricanRepublic 4.394674 18.558190
+Ethiopia 9.145000 38.763611
+Somalia 2.046934 45.318162
+Uganda 0.347596 32.582520
+Kenya -1.286389 36.817223
+Tanzania -6.7924 39.2083
+Rwanda -1.9403 29.8739
+Burundi -3.3731 29.9189
+DemocraticRepublicOfTheCongo -4.0383 21.7587
+RepublicOfTheCongo -4.2634 15.2429
+Zambia -15.3875 28.3228
+Malawi -13.2543 34.3015
+Zimbabwe -17.8252 31.0335
+Botswana -24.6541 25.9087
+Namibia -22.5609 17.0658
+SouthAfrica -25.746 28.1871
+WesternSahara 24.2155 -12.8858
+Togo 6.1228 1.2255
+Benin 6.5244 2.4445
+Gabon -0.8037 11.6094
+EquatorialGuinea 1.6508 10.2679
+SaoTomeandPrincipe 0.1864 6.6131
+SouthSudan 4.860416 31.576144
+Mozambique -25.7479 28.2379
+Lesotho -29.609988 28.233608
+Swaziland -26.562480 31.399114
+Comoros -11.8750 43.8722
+Djibouti 11.8251 42.5903
+XX#paris
+lebanon#Jerusalem 
+maxico#Canada
+Morocco#lebanon
+Jerusalem#Egypt
+Eritrea#Morocco
+Angola#Zambia 
+Guinea#Palestine 
+Morocco#WesternSahara
+Algeria#WesternSahara
+Algeria#Morocco
+Algeria#Mali
+Algeria#Niger
+Algeria#Libya
+Algeria#Tunisia
+Egypt#Sudan
+Egypt#Libya
+Egypt#Israel
+Egypt#Palestine
+Sudan#Egypt
+Sudan#Libya
+Sudan#Chad
+Libya#Algeria
+Libya#Tunisia
+Libya#Egypt
+Libya#Sudan
+Libya#Chad
+Sudan#Ethiopia
+Sudan#Eritrea
+Sudan#SouthSudan
+Chad#Sudan
+Chad#Libya
+Chad#Niger
+Chad#Cameroon
+Chad#CentralAfricanRepublic
+Niger#Algeria
+Niger#Libya
+Niger#Chad
+Niger#Nigeria
+Niger#Mali
+Niger#BurkinaFaso
+Mali#Algeria
+Mali#Niger
+Mali#Guinea
+Mali#IvoryCoast
+Mali#BurkinaFaso
+Mali#Senegal
+Mali#Mauritania
+Mauritania#WesternSahara
+Mauritania#Morocco
+Mauritania#Mali
+Mauritania#Senegal
+Senegal#Mauritania
+Senegal#Mali
+Senegal#Guinea
+Senegal#Gambia
+Guinea#Senegal
+Guinea#Mali
+Guinea#IvoryCoast
+Guinea#Liberia
+Guinea#SierraLeone
+Guinea#GuineaBissau
+IvoryCoast#Guinea
+IvoryCoast#Mali
+IvoryCoast#BurkinaFaso
+IvoryCoast#Ghana
+BurkinaFaso#Mali
+BurkinaFaso#Niger
+BurkinaFaso#IvoryCoast
+BurkinaFaso#Ghana
+BurkinaFaso#Togo
+BurkinaFaso#Benin
+Liberia#Guinea
+Liberia#SierraLeone
+SierraLeone#Guinea
+SierraLeone#Liberia
+Ghana#IvoryCoast
+Ghana#BurkinaFaso
+Ghana#Togo
+Ghana#Benin
+Ghana#Nigeria
+Nigeria#Niger
+Nigeria#Chad
+Nigeria#Cameroon
+Nigeria#Benin
+Cameroon#Nigeria
+Cameroon#Chad
+Cameroon#CentralAfricanRepublic
+Cameroon#Gabon
+Cameroon#EquatorialGuinea
+CentralAfricanRepublic#Chad
+CentralAfricanRepublic#Cameroon
+CentralAfricanRepublic#Sudan
+CentralAfricanRepublic#SouthSudan
+CentralAfricanRepublic#DemocraticRepublicOfTheCongo
+CentralAfricanRepublic#RepublicOfTheCongo
+Ethiopia#Sudan
+Ethiopia#Eritrea
+Ethiopia#Djibouti
+Ethiopia#Somalia
+Ethiopia#Kenya
+Somalia#Ethiopia
+Somalia#Djibouti
+Somalia#Kenya
+Uganda#Kenya
+Uganda#Tanzania
+Uganda#Rwanda
+Uganda#SouthSudan
+Uganda#DemocraticRepublicOfTheCongo
+Kenya#Ethiopia
+Kenya#Somalia
+Kenya#Uganda
+Kenya#Tanzania
+Kenya#SouthSudan
+Tanzania#Kenya
+Tanzania#Uganda
+Tanzania#Rwanda
+Tanzania#Burundi
+Tanzania#DemocraticRepublicOfTheCongo
+Tanzania#Zambia
+Tanzania#Malawi
+Tanzania#Mozambique
+Rwanda#Uganda
+Rwanda#Tanzania
+Rwanda#Burundi
+Rwanda#DemocraticRepublicOfTheCongo
+Burundi#Tanzania
+Burundi#Rwanda
+Burundi#DemocraticRepublicOfTheCongo
+DemocraticRepublicOfTheCongo#CentralAfricanRepublic
+DemocraticRepublicOfTheCongo#RepublicOfTheCongo
+DemocraticRepublicOfTheCongo#Angola
+DemocraticRepublicOfTheCongo#Zambia
+DemocraticRepublicOfTheCongo#Tanzania
+DemocraticRepublicOfTheCongo#Burundi
+DemocraticRepublicOfTheCongo#Rwanda
+DemocraticRepublicOfTheCongo#Uganda
+RepublicOfTheCongo#CentralAfricanRepublic
+RepublicOfTheCongo#DemocraticRepublicOfTheCongo
+RepublicOfTheCongo#Angola
+RepublicOfTheCongo#Gabon
+Zambia#Tanzania
+Zambia#DemocraticRepublicOfTheCongo
+Zambia#Angola
+Zambia#Zimbabwe
+Zambia#Namibia
+Zambia#Botswana
+Zambia#Malawi
+Zambia#Mozambique
+Malawi#Tanzania
+Malawi#Zambia
+Malawi#Mozambique
+Zimbabwe#Zambia
+Zimbabwe#Mozambique
+Zimbabwe#Botswana
+Zimbabwe#SouthAfrica
+Botswana#Zimbabwe
+Botswana#Zambia
+Botswana#Namibia
+Botswana#SouthAfrica
+Namibia#Angola
+Namibia#Zambia
+Namibia#Botswana
+Namibia#SouthAfrica
+SouthAfrica#Namibia
+SouthAfrica#Botswana
+SouthAfrica#Zimbabwe
+SouthAfrica#Mozambique
+SouthAfrica#Swaziland
+SouthAfrica#Lesotho
+WesternSahara#Morocco
+WesternSahara#Mauritania
+Togo#Ghana
+Togo#BurkinaFaso
+Togo#Benin
+Benin#Nigeria
+Benin#BurkinaFaso
+Benin#Togo
+SaoTomeandPrincipe#Gabon
+Gabon#SaoTomeandPrincipe
+Gabon#EquatorialGuinea
+Gabon#Cameroon
+EquatorialGuinea#Gabon
+EquatorialGuinea#Cameroon
+Comoros#Somalia

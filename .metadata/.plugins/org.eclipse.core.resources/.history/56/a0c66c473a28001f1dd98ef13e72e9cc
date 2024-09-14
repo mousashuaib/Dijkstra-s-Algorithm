@@ -1,0 +1,37 @@
+package application;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.PriorityQueue;
+
+public class CityPriorityQueue {
+    private PriorityQueue<City> queue;
+    private Map<City, Double> distances;
+
+    public CityPriorityQueue(Map<City, Double> distances) {
+        this.distances = distances;
+        this.queue = new PriorityQueue<>(new Comparator<City>() {
+            @Override
+            public int compare(City city1, City city2) {
+                double distance1 = distances.get(city1);
+                double distance2 = distances.get(city2);
+                return Double.compare(distance1, distance2);
+            }
+        });
+    }
+
+    public void add(City city) {
+        queue.add(city);
+    }
+
+    public City poll() {
+        return queue.poll();
+    }
+
+    public boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
+    public void updateDistance(City city, double distance) {
+        distances.put(city, distance);
+    }
+}

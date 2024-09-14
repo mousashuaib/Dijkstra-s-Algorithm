@@ -1,0 +1,163 @@
+package application;
+
+import java.util.Collection;
+
+
+public class MinHeapOne {
+    private Node[] heap;
+    private int size;
+    private int capacity;
+    private MyHashMap<Node, Integer> nodeToIndex; // Map to store node -> index mapping
+
+    public MinHeapOne(int capacity) {
+        this.capacity = capacity;
+        this.heap = new Node[capacity];
+        this.size = 0;
+        this.nodeToIndex = new MyHashMap<>();
+    }
+
+    private int getParentIndex(int index) {
+        return (index - 1) / 2;
+    }
+
+    private int getLeftChildIndex(int index) {
+        return 2 * index + 1;
+    }
+
+    private int getRightChildIndex(int index) {
+        return 2 * index + 2;
+    }
+
+    private boolean hasLeftChild(int index) {
+        return getLeftChildIndex(index) < size;
+    }
+
+    private boolean hasRightChild(int index) {
+        return getRightChildIndex(index) < size;
+    }
+
+    private boolean hasParent(int index) {
+        return getParentIndex(index) >= 0;
+    }
+
+    private Node leftChild(int index) {
+        return heap[getLeftChildIndex(index)];
+    }
+
+    private Node rightChild(int index) {
+        return heap[getRightChildIndex(index)];
+    }
+
+    private Node parent(int index) {
+        return heap[getParentIndex(index)];
+    }
+
+    private void swap(int indexOne, int indexTwo) {
+        Node temp = heap[indexOne];
+        heap[indexOne] = heap[indexTwo];
+        heap[indexTwo] = temp;
+
+        // Update node to index mapping
+        nodeToIndex.put(heap[indexOne], indexOne);
+        nodeToIndex.put(heap[indexTwo], indexTwo);
+    }
+
+    private void ensureCapacity() {
+        if (size == capacity) {
+            capacity *= 2;
+            Node[] newHeap = new Node[capacity];
+            System.arraycopy(heap, 0, newHeap, 0, size);
+            heap = newHeap;
+        }
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public void insert(Node node) {
+        ensureCapacity();
+        heap[size] = node;
+        nodeToIndex.put(node, size); // Update node to index mapping
+        size++;
+        heapifyUp(size - 1); // Start heapifyUp from the last index
+    }
+
+    public Node extractMin() {
+        if (isEmpty()) throw new IllegalStateException("Heap is empty");
+        Node min = heap[0];
+        heap[0] = heap[size - 1];
+        nodeToIndex.put(heap[0], 0); // Update node to index mapping
+        nodeToIndex.remove(min); // Remove from the mapping
+        size--;
+        heapifyDown(0); // Start heapifyDown from the root
+        return min;
+    }
+
+    public Node peek() {
+        if (isEmpty()) throw new IllegalStateException("Heap is empty");
+        return heap[0];
+    }
+
+    public void addAll(Collection<Node> values) {
+        for (Node node : values) {
+            insert(node);
+        }
+    }
+    public void remove(Node node) {
+        if (nodeToIndex.get(node)!= null) {
+            throw new IllegalArgumentException("Node not found in heap");
+        }
+
+        int indexToRemove = nodeToIndex.get(node);
+        if (indexToRemove == size - 1) {
+            // Last element in the heap
+            nodeToIndex.remove(node);
+            heap[indexToRemove] = null;
+            size--;
+        } else {
+            // Replace the node to be removed with the last node in the heap
+            heap[indexToRemove] = heap[size - 1];
+            nodeToIndex.put(heap[indexToRemove], indexToRemove);
+            nodeToIndex.remove(node); // Remove the old node from mapping
+            heap[size - 1] = null;
+            size--;
+
+            // Perform heapifyUp or heapifyDown to maintain heap properties
+            int parentIndex = getParentIndex(indexToRemove);
+            if (hasParent(indexToRemove) && heap[indexToRemove].distance < heap[parentIndex].distance) {
+                heapifyUp(indexToRemove);
+            } else {
+                heapifyDown(indexToRemove);
+            }
+        }
+    }
+
+    private void heapifyUp(int index) {
+        while (hasParent(index) && parent(index).distance > heap[index].distance) {
+            int parentIndex = getParentIndex(index);
+            swap(parentIndex, index);
+            index = parentIndex;
+        }
+    }
+
+    private void heapifyDown(int index) {
+        while (hasLeftChild(index)) {
+            int smallerChildIndex = getLeftChildIndex(index);
+            if (hasRightChild(index) && rightChild(index).distance < leftChild(index).distance) {
+                smallerChildIndex = getRightChildIndex(index);
+            }
+
+            if (heap[index].distance < heap[smallerChildIndex].distance) {
+                break;
+            } else {
+                swap(index, smallerChildIndex);
+            }
+            index = smallerChildIndex;
+        }
+    }
+}
